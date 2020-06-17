@@ -8,3 +8,7 @@ Compile and run with:
 $ make
 
 $ ./compton_program
+
+
+
+Depends: gnuplot-cpp (https://github.com/martinruenz/gnuplot-cpp)
