@@ -11,9 +11,10 @@
  */
 
 #include <ComptonEvent.hpp>
+#include <graphing.hpp>
 
 /** 
- * @brief set compton event's phi value (angle between scattered photon
+ * @brief set compton event's phi value (angle (deg) between scattered photon
  * and insonant direction of photon)
  */
 void ComptonEvent::setPhi(long double phi)
@@ -22,8 +23,7 @@ void ComptonEvent::setPhi(long double phi)
 }
 
 /** 
- * @brief set photon momentum pre and post collision, p_naught = h / lambda
- * naught, p_prime = h / lambda prime
+ * @brief set photon wavelength (meters) post collision
  */
 void ComptonEvent::setLambdaPrime()
 {
@@ -37,7 +37,8 @@ void ComptonEvent::setLambdaPrime()
 }
 
 /** 
- * @brief set photon momentum pre and post collision, p_naught = h / lambda
+ * @brief set photon momentum (kg * m/s) 
+ * pre and post collision, p_naught = h / lambda
  * naught, p_prime = h / lambda prime
  */
 void ComptonEvent::setPhotonMomentum()
@@ -53,7 +54,8 @@ void ComptonEvent::setPhotonMomentum()
 }
 
 /** 
- * @brief set photon energy pre and post collision, E_photon = hc / lambda,
+ * @brief set photon energy (joules) pre and post collision, 
+ * E_photon = hc / lambda,
  * E_photon_prime = hc / lambda prime
  */
 void ComptonEvent::setPhotonEnergy()
@@ -70,7 +72,8 @@ void ComptonEvent::setPhotonEnergy()
 }
 
 /** 
- * @brief set electron energy, E_e = photon energy pre collision - photon
+ * @brief set electron energy (joules)
+ * , E_e = photon energy pre collision - photon
  * energy post collision
  */
 void ComptonEvent::setElectronEnergy()
@@ -81,7 +84,7 @@ void ComptonEvent::setElectronEnergy()
 }
 
 /** 
- * @brief set electron velocity, v = sqrt(2KE / electron mass)
+ * @brief set electron velocity (m/s), v = sqrt(2KE / electron mass)
  */
 void ComptonEvent::setElectronVelocity()
 {
@@ -116,12 +119,30 @@ void ComptonEvent::setElectronScatterAngleTheta()
 		  << electron.theta << '\n';
 }
 
+ComptonGraphValues ComptonEvent::getComptonGraphValues()
+{
+	ComptonGraphValues ComptonGraphContainer =
+		{
+		 photon.E_photon,
+		 photon.E_photon_prime,
+		 photon.lambda_naught,
+		 photon.lambda_prime
+		};
+
+	return ComptonGraphContainer;
+}
 
 int main()
 {
   // test cases go here for now, our "main" will later just be in
   // the graphical section of this project
-
   ComptonEvent c{30};
+
+  ComptonGraphValues graph_vals = c.getComptonGraphValues();
+
+  graph_compton_shift(graph_vals.lambda_prime,
+		      graph_vals.lambda_naught,
+		      graph_vals.E_photon_naught,
+		      graph_vals.E_photon_prime);
 }
 

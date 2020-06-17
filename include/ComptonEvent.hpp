@@ -18,6 +18,15 @@
 #include <cmath>
 #include <globals.hpp>
 
+// container used to return necessary values when graphing compton
+// shift
+struct ComptonGraphValues {
+	long double E_photon_naught;
+	long double E_photon_prime;
+	long double lambda_naught;
+	long double lambda_prime;
+};
+
 class ComptonEvent {
 
 private:
@@ -56,7 +65,8 @@ private:
 		long double momentum;
     
 	} electron;
-  
+
+	
 public:
 	ComptonEvent(long double phi) : phi{phi}
 	{
@@ -77,7 +87,9 @@ public:
 	void setElectronEnergy();
 	void setElectronVelocity();
 	void setElectronMomentum();
-	void setElectronScatterAngleTheta();  
+	void setElectronScatterAngleTheta();
+
+	ComptonGraphValues getComptonGraphValues();
 };
 
 #endif
