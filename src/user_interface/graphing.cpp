@@ -27,6 +27,10 @@ void graph_compton_shift(long double lambda_prime,
 	
 	gp.sendLine("set xlabel \"Wavelength (meters)\"");
 	gp.sendLine("set ylabel \"Energy (joules)\"");
+
+	std::ostringstream range_sstr;
+	range_sstr << "set xrange [0:" << lambda_naught * 2 << "]";
+	gp.sendLine(range_sstr.str());
 	
 	std::ostringstream photon_naught_sstr;
 	photon_naught_sstr << "plot "
