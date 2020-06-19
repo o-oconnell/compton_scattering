@@ -19,8 +19,6 @@ void graph_compton_shift(long double lambda_prime,
 			 long double e_prime)
 {
 	GnuplotPipe gp;
-	//	gp.sendLine("plot [-pi/2:pi] cos(x),-(sin(x) > sin(x+1) ? sin(x) : sin(x+1))");
-
 
 	long double b_value_naught = 2 * M_PI / lambda_naught;
 	long double b_value_prime = 2 * M_PI / lambda_prime;
@@ -39,9 +37,6 @@ void graph_compton_shift(long double lambda_prime,
 			   << b_value_naught
 			   << "*x) title \"Insonant photon\"";
 	
-	std::cout << "graph of photon naught: "
-		  << photon_naught_sstr.str() << '\n';
-	
 	std::ostringstream photon_prime_sstr;
 	photon_prime_sstr << "replot "
 			  << e_prime
@@ -49,9 +44,6 @@ void graph_compton_shift(long double lambda_prime,
 			  << b_value_prime
 			  << "*x) title \"Deflected photon\"";
 	
-	std::cout << "graph of photon prime: "
-		  << photon_prime_sstr.str() << '\n';
-
 	gp.sendLine(photon_naught_sstr.str());
 	gp.sendLine(photon_prime_sstr.str());
 }

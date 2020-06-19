@@ -32,7 +32,8 @@ void ComptonEvent::setLambdaPrime()
 		PLANCK_CONSTANT / (M_NAUGHT * SPEED_OF_LIGHT) *
 		(1 - cos(phi));
 	
-	std::cout << "set lambda prime to: " << photon.lambda_prime
+	std::cout << "Set lambda prime (pre-collision wavelength) to: "
+		  << photon.lambda_prime
 		  << " meters" << '\n';
 }
 
@@ -47,9 +48,9 @@ void ComptonEvent::setPhotonMomentum()
 	photon.p_photon_naught = PLANCK_CONSTANT / photon.lambda_naught;
 	photon.p_photon_prime = PLANCK_CONSTANT / photon.lambda_prime;
 
-	std::cout << "original photon momentum (kg * m/s) " <<
+	std::cout << "Pre-collision photon momentum (kg * m/s) " <<
 		photon.p_photon_naught << '\n';
-	std::cout << "post-collision photon momentum (kg * m/s) " << photon.p_photon_prime << '\n';
+	std::cout << "Post-collision photon momentum (kg * m/s) " << photon.p_photon_prime << '\n';
     
 }
 
@@ -67,8 +68,10 @@ void ComptonEvent::setPhotonEnergy()
 	photon.E_photon_prime =
 		PLANCK_CONSTANT * SPEED_OF_LIGHT / photon.lambda_prime;
 
-	std::cout << "E photon naught (joules) = " << photon.E_photon << '\n';
-	std::cout << "E photon prime (joules) = " << photon.E_photon_prime << '\n';
+	std::cout << "Pre-collision photon energy (joules) = "
+		  << photon.E_photon << '\n';
+	std::cout << "Post-collision photon energy (joules) = "
+		  << photon.E_photon_prime << '\n';
 }
 
 /** 
@@ -79,7 +82,7 @@ void ComptonEvent::setPhotonEnergy()
 void ComptonEvent::setElectronEnergy()
 {
 	this->electron.E_sub_e = photon.E_photon - photon.E_photon_prime;
-	std::cout << "electron kinetic energy (joules) is " << electron.E_sub_e 
+	std::cout << "Electron kinetic energy (joules) = " << electron.E_sub_e 
 	      << '\n';
 }
 
@@ -89,7 +92,7 @@ void ComptonEvent::setElectronEnergy()
 void ComptonEvent::setElectronVelocity()
 {
 	electron.velocity = sqrt(2 * electron.E_sub_e / M_NAUGHT);
-	std::cout << "electron velocity: " << electron.velocity << " m/s" << '\n';
+	std::cout << "Electron velocity (m/s): " << electron.velocity << '\n';
 }  
 
 /** 
@@ -99,8 +102,8 @@ void ComptonEvent::setElectronMomentum()
 {
 	electron.momentum = M_NAUGHT * electron.velocity;
 	
-	std::cout << "electron momentum: " << electron.momentum <<
-		" kg * m / s" << '\n';
+	std::cout << "Electron momentum (kg * m/s): " << electron.momentum
+		  << '\n';
 }
 
 /** @brief essentially here we just set the momentum of the photon in the y 
@@ -111,11 +114,10 @@ void ComptonEvent::setElectronMomentum()
  */
 void ComptonEvent::setElectronScatterAngleTheta()
 {
-	
 	electron.theta = asin(photon.p_photon_prime * sin(phi)
 			      / electron.momentum) * 180 / M_PI;
 	
-	std::cout << "set electron scatter angle (theta) to "
+	std::cout << "Set electron scatter angle (theta) to "
 		  << electron.theta << '\n';
 }
 
@@ -134,15 +136,19 @@ ComptonGraphValues ComptonEvent::getComptonGraphValues()
 
 int main()
 {
-  // test cases go here for now, our "main" will later just be in
-  // the graphical section of this project
-  ComptonEvent c{30};
+	long double theta = 0.0;
+	std::cout << "Enter the scatter angle (theta)\n";
+	std::cin >> theta;
 
-  ComptonGraphValues graph_vals = c.getComptonGraphValues();
-
-  graph_compton_shift(graph_vals.lambda_prime,
-		      graph_vals.lambda_naught,
-		      graph_vals.E_photon_naught,
-		      graph_vals.E_photon_prime);
+	// test cases go here for now, our "main" will later just be in
+	// the graphical section of this project
+	ComptonEvent c{theta};
+	
+	ComptonGraphValues graph_vals = c.getComptonGraphValues();
+  
+	graph_compton_shift(graph_vals.lambda_prime,
+			    graph_vals.lambda_naught,
+			    graph_vals.E_photon_naught,
+			    graph_vals.E_photon_prime);
 }
 
