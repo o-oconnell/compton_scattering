@@ -1,7 +1,7 @@
 # compton_scattering
-A simple modeling program demonstrating compton scattering and photon behavior as a particle of no mass that has momentum.
+A simple modeling program demonstrating Compton scattering and photon behavior as a particle of no mass that has momentum.
 
-Right now just print and graphs results for a known phi (the angle betweeen the incoming photon's direction and the scattered photon's direction) and lambda (wavelength). 
+Currently provides a basic introduction to Compton scattering. Also allows the user to graph different compton shifts by providing values for the angle between the incident photon and its direction after collision (theta) and the photon's initial wavelength (lambda).
 
 Compile and run with:
 
@@ -10,4 +10,4 @@ $ make
 $ ./compton_program
 
 
-Depends: gnuplot-cpp (https://github.com/martinruenz/gnuplot-cpp)
+Depends: gnuplot-cpp (https://github.com/martinruenz/gnuplot-cpp), GTK+3.0
