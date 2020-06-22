@@ -10,4 +10,4 @@ $ make
 $ ./compton_program
 
 
-Depends: gnuplot-cpp (https://github.com/martinruenz/gnuplot-cpp), GTK+3.0
+Depends: gnuplot-cpp (https://github.com/martinruenz/gnuplot-cpp), GTK+3.0, gnuplot
