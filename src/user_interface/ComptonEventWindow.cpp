@@ -66,8 +66,10 @@ void create_calculation_window()
 {
 	GtkWidget *win;
 	GtkWidget *scale, *theta_label;
-	GtkWidget *outer_box, *scale_info_box, *theta_entry_box,
+	GtkWidget *outer_box, *data_entry_box, *output_box,
+		*scale_info_box, *theta_entry_box,
 		*lambda_entry_box;
+	
 	GtkWidget *theta_entry, *theta_entry_label;
 	GtkWidget *lambda_entry, *lambda_entry_label;
 	GtkWidget *submit;
@@ -80,48 +82,50 @@ void create_calculation_window()
 	win = gtk_window_new(GTK_WINDOW_TOPLEVEL);
 	gtk_window_set_title(GTK_WINDOW (win),
 			     basename("Compton Scattering Simulator"));
-	gtk_window_set_default_size(GTK_WINDOW (win), 1000, 100);
+	gtk_window_set_default_size(GTK_WINDOW (win), 500, 100);
 	gtk_container_set_border_width(GTK_CONTAINER (win), 10);
 	g_signal_connect(G_OBJECT (win), "destroy",
 			 G_CALLBACK (gtk_main_quit), NULL);
 
 	// create the outermost box that we pack everything else into
-	outer_box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 10);
-
+	outer_box = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 10);
+	data_entry_box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 10);
+        output_box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 10);
+	
 	// add the title for the data entry section
 	GtkWidget *data_entry_title = gtk_label_new(NULL);
 	gtk_label_set_markup(GTK_LABEL(data_entry_title), "<b>Data entry: </b>");	
 	gtk_label_set_xalign(GTK_LABEL(data_entry_title), 0.0);
-	gtk_box_pack_start(GTK_BOX(outer_box), data_entry_title, TRUE, TRUE, 0);
+	gtk_box_pack_start(GTK_BOX(data_entry_box), data_entry_title, FALSE, FALSE, 0);
 	
 	// add the usage description
 	title_description = gtk_text_view_new();
-	title_description = gtk_label_new ("Use the text box or the slider to change the value of the scatter angle (theta). Enter the wavelength of the incident photon (lambda) using the second\n text box.");
+	title_description = gtk_label_new ("Use the first text box or the slider to change the value of the scatter angle (theta).\nEnter the wavelength of the incident photon (lambda) using the second\ntext box.");
 	gtk_label_set_xalign(GTK_LABEL(title_description), 0.0f);
-	gtk_box_pack_start(GTK_BOX(outer_box), title_description, TRUE, TRUE, 0);
+	gtk_box_pack_start(GTK_BOX(data_entry_box), title_description, FALSE, FALSE, 0);
 	
 	// create the scale and the label for it
-	adjustment = gtk_adjustment_new(180.0, 0.0, 360.0, 0.1, 10.0, 0.0);
+	adjustment = gtk_adjustment_new(30.0, 0.0, 360.0, 0.1, 10.0, 0.0);
 	scale = gtk_scale_new(GTK_ORIENTATION_HORIZONTAL, adjustment);
 	gtk_scale_set_digits (GTK_SCALE (scale), 2);
 	gtk_scale_set_value_pos(GTK_SCALE (scale), GTK_POS_TOP);
 	gtk_scale_set_draw_value(GTK_SCALE (scale), TRUE);
-	theta_label = gtk_label_new("Adjust the slider to set the scatter angle (theta).");
+	theta_label = gtk_label_new("Adjust the slider to set the scatter angle (theta):");
 	scale_info_box = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 10);
 	gtk_box_pack_start(GTK_BOX(scale_info_box), theta_label, FALSE,
 			   FALSE, 0);	
 	gtk_box_pack_start(GTK_BOX(scale_info_box), scale, TRUE, TRUE, 0);
-	gtk_box_pack_start(GTK_BOX(outer_box), scale_info_box, TRUE, TRUE, 0);
+	gtk_box_pack_start(GTK_BOX(data_entry_box), scale_info_box, FALSE, FALSE, 0);
 
 	// create the alternate textbox usable for theta entry and its label
 	theta_entry = gtk_entry_new();
 	theta_entry_label = gtk_label_new("Alternatively, enter the scatter angle manually:");
-	gtk_entry_set_text(GTK_ENTRY(theta_entry), "180.0");
+	gtk_entry_set_text(GTK_ENTRY(theta_entry), "30.0");
 	gtk_widget_set_halign(theta_entry, GTK_ALIGN_START);
 	theta_entry_box = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 10);
 	gtk_box_pack_start(GTK_BOX(theta_entry_box), theta_entry_label, FALSE, FALSE, 0);
 	gtk_box_pack_start(GTK_BOX(theta_entry_box), theta_entry, TRUE, TRUE, 0);
-	gtk_box_pack_start(GTK_BOX(outer_box), theta_entry_box, TRUE, TRUE, 0);
+	gtk_box_pack_start(GTK_BOX(data_entry_box), theta_entry_box, FALSE, FALSE, 0);
 	
 	// create the text box for lambda entry and its label
 	lambda_entry_box = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 10);
@@ -132,25 +136,28 @@ void create_calculation_window()
 	
 	gtk_box_pack_start(GTK_BOX(lambda_entry_box), lambda_entry_label, FALSE, FALSE, 0);
 	gtk_box_pack_start(GTK_BOX(lambda_entry_box), lambda_entry, TRUE, TRUE, 0);
-	gtk_box_pack_start(GTK_BOX(outer_box), lambda_entry_box, TRUE, TRUE, 0);
+	gtk_box_pack_start(GTK_BOX(data_entry_box), lambda_entry_box, FALSE, FALSE, 0);
 
 	
 	// create the submit button
 	submit = gtk_button_new_with_label("Submit");
-	gtk_box_pack_start(GTK_BOX(outer_box), submit, TRUE, TRUE, 10);
-	
+	gtk_box_pack_start(GTK_BOX(data_entry_box), submit, TRUE, TRUE, 10);
 
+	// add the data entry box to the outer box
+	gtk_box_pack_start(GTK_BOX(outer_box), data_entry_box, FALSE, FALSE, 10);
+	
 	// add the title for the results section
 	GtkWidget *results_title = gtk_label_new(NULL);
 	gtk_label_set_markup(GTK_LABEL(results_title), "<b>Results: </b>");
 	gtk_label_set_xalign(GTK_LABEL(results_title), 0.0);
-	gtk_box_pack_start(GTK_BOX(outer_box), results_title, TRUE, TRUE, 0);
-
+	gtk_box_pack_start(GTK_BOX(output_box), results_title, TRUE, TRUE, 0);
 
 	// create the result labels, which we will use to output our findings
-	GtkWidget *result_box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 10);
+	GtkWidget *result_box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 5);
 	struct result_labels *results = g_new0(struct result_labels, 1);
 	create_result_labels(outer_box, result_box, results);
+	gtk_box_pack_start(GTK_BOX(output_box), result_box, FALSE, FALSE, 0);
+	gtk_box_pack_start(GTK_BOX(outer_box), output_box, FALSE, FALSE, 10);
 	
 	// pass functions to be called (callbacks) when new values are entered
 	g_signal_connect(G_OBJECT(scale), "value-changed",
@@ -284,8 +291,6 @@ void create_result_labels(GtkWidget *outer_box,
 	gtk_box_pack_start(GTK_BOX(result_box), results->electron_velocity, FALSE, FALSE, 0);
 	gtk_box_pack_start(GTK_BOX(result_box), results->electron_momentum, FALSE, FALSE, 0);
 	gtk_box_pack_start(GTK_BOX(result_box), results->electron_scatter_angle, FALSE, FALSE, 0);
-
-	gtk_box_pack_start(GTK_BOX(outer_box), result_box, FALSE, FALSE, 0);
 }
 
 /* Function that updates all of the results whenever a new set of values
