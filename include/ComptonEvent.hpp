@@ -16,7 +16,6 @@
 
 #include <iostream>
 #include <cmath>
-#include <globals.hpp>
 
 // container used to return necessary values when graphing compton
 // shift
@@ -27,14 +26,29 @@ struct ComptonGraphValues {
 	long double lambda_prime;
 };
 
-class ComptonEvent {
+// contains ALL of the values that we calculate, used to update the result
+// on the UI
+struct ComptonResultValues {
+	long double theta;
+	long double lambda_naught;
+	long double lambda_prime;
+	long double photon_energy_naught;
+	long double photon_energy_prime;
+	long double photon_momentum_naught;
+	long double photon_momentum_prime;
+	long double electron_energy;
+	long double electron_velocity;
+	long double electron_momentum;
+	long double electron_scatter_angle;
+};
 
+class ComptonEvent {
 private:
-	long double phi;
+	long double theta;
   
 	struct Photon {
 		// pre and post collision wavelength
-		const long double lambda_naught = 9E-12; // (9 picometers in meters)
+		long double lambda_naught = 9E-12; // (9 picometers in meters)
 		long double lambda_prime; 
 
 		// momentum of the photon before and after the collision
@@ -59,36 +73,39 @@ private:
 		long double velocity;
 
 		// direction of the electron after the collision
-		long double theta;
+		long double phi;
 
 		// post collision momentum
 		long double momentum;
     
-	} electron;
-
-	
+	} electron;	
 public:
-	ComptonEvent(long double phi) : phi{phi}
+	ComptonEvent(long double theta, long double lambda_naught) :
+		theta{theta}
 	{
-		setPhi(phi / (180 / M_PI));
+		photon.lambda_naught = picometersToMeters(lambda_naught);
+		setTheta(theta / (180 / M_PI));
 		setLambdaPrime();
 		setPhotonEnergy();
 		setPhotonMomentum();
 		setElectronEnergy();
 		setElectronVelocity();
 		setElectronMomentum();
-		setElectronScatterAngleTheta();
+		setElectronScatterAnglePhi();
 	}
-	
-	void setPhi(long double phi);
+
+
+	ComptonResultValues getResults();
+	long double picometersToMeters(long double val);
+	void setTheta(long double theta);
 	void setLambdaPrime();
 	void setPhotonMomentum();
 	void setPhotonEnergy();
 	void setElectronEnergy();
 	void setElectronVelocity();
 	void setElectronMomentum();
-	void setElectronScatterAngleTheta();
-
+	void setElectronScatterAnglePhi();
+	long double getThetaInDegrees();
 	ComptonGraphValues getComptonGraphValues();
 };
 

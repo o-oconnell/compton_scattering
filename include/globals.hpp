@@ -9,5 +9,4 @@ long double SPEED_OF_LIGHT = 2.99792458E8; // m / sec
 
 long double PLANCK_CONSTANT = 6.626E-34; // joules * seconds
 
-
 #endif

@@ -13,13 +13,16 @@
 #include <graphing.hpp>
 #include <sstream>
 
+
+
 void graph_compton_shift(long double lambda_prime,
 			 long double lambda_naught,
 			 long double e_naught,
 			 long double e_prime)
 {
+	system("killall gnuplot > /dev/null 2>&1");
 	GnuplotPipe gp;
-
+	
 	long double b_value_naught = 2 * M_PI / lambda_naught;
 	long double b_value_prime = 2 * M_PI / lambda_prime;
 	
@@ -35,8 +38,8 @@ void graph_compton_shift(long double lambda_prime,
 			   << e_naught
 			   << " * cos("
 			   << b_value_naught
-			   << "*x) title \"Insonant photon\"";
-	
+			   << "*x) title \"Incident photon\"";
+
 	std::ostringstream photon_prime_sstr;
 	photon_prime_sstr << "replot "
 			  << e_prime

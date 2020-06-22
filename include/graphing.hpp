@@ -8,6 +8,7 @@
  *
  */
 
+#include <gnuplot.h>
 
 void graph_compton_shift(long double lambda_prime,
 			 long double lambda,

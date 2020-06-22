@@ -12,14 +12,43 @@
 
 #include <ComptonEvent.hpp>
 #include <graphing.hpp>
+#include <globals.hpp>
+
+ComptonResultValues ComptonEvent::getResults()
+{
+	ComptonResultValues result = {
+				      getThetaInDegrees(),
+				      photon.lambda_naught,
+				      photon.lambda_prime,
+				      photon.E_photon,
+				      photon.E_photon_prime,
+				      photon.p_photon_naught,
+				      photon.p_photon_prime,
+				      electron.E_sub_e,
+				      electron.velocity,
+				      electron.momentum,
+				      electron.phi
+	};
+	return result;
+}
+
+long double ComptonEvent::getThetaInDegrees()
+{
+	return theta * (180 / M_PI);
+}
+
+long double ComptonEvent::picometersToMeters(long double val)
+{
+	return val * pow(10, -12);
+}
 
 /** 
  * @brief set compton event's phi value (angle (deg) between scattered photon
  * and insonant direction of photon)
  */
-void ComptonEvent::setPhi(long double phi)
+void ComptonEvent::setTheta(long double theta)
 {
-	this->phi = phi;
+	this->theta = theta;
 }
 
 /** 
@@ -30,9 +59,9 @@ void ComptonEvent::setLambdaPrime()
 	photon.lambda_prime =
 		photon.lambda_naught +
 		PLANCK_CONSTANT / (M_NAUGHT * SPEED_OF_LIGHT) *
-		(1 - cos(phi));
+		(1 - cos(theta));
 	
-	std::cout << "Set lambda prime (pre-collision wavelength) to: "
+	std::cout << "Set lambda prime (post-collision wavelength) to: "
 		  << photon.lambda_prime
 		  << " meters" << '\n';
 }
@@ -108,17 +137,17 @@ void ComptonEvent::setElectronMomentum()
 
 /** @brief essentially here we just set the momentum of the photon in the y 
  * direction and the momentum of the electron in the y direction equal to each
- * other and solve for theta since momentum of photon in y direction = momentum  * sin(phi) momentum of electron in y direction = electron momentum * 
- * sin(theta) we solve the equation photon momentum * sin(phi) = electron 
- * momentum * sin(theta) and since we are given phi, we can solve for theta
+ * other and solve for phi since momentum of photon in y direction = momentum  * sin(theta) and momentum of electron in y direction = electron momentum * 
+ * sin(theta) we solve the equation photon momentum * sin(theta) = electron 
+ * momentum * sin(theta) and since we are given theta, we can solve for phi
  */
-void ComptonEvent::setElectronScatterAngleTheta()
+void ComptonEvent::setElectronScatterAnglePhi()
 {
-	electron.theta = asin(photon.p_photon_prime * sin(phi)
+	electron.phi = asin(photon.p_photon_prime * sin(theta)
 			      / electron.momentum) * 180 / M_PI;
 	
-	std::cout << "Set electron scatter angle (theta) to "
-		  << electron.theta << '\n';
+	std::cout << "Set electron scatter angle (phi) to "
+		  << electron.phi << '\n';
 }
 
 ComptonGraphValues ComptonEvent::getComptonGraphValues()
@@ -134,21 +163,21 @@ ComptonGraphValues ComptonEvent::getComptonGraphValues()
 	return ComptonGraphContainer;
 }
 
-int main()
-{
-	long double theta = 0.0;
-	std::cout << "Enter the scatter angle (theta)\n";
-	std::cin >> theta;
+// int main()
+// {
+// 	long double theta = 0.0;
+// 	std::cout << "Enter the scatter angle (theta)\n";
+// 	std::cin >> theta;
 
-	// test cases go here for now, our "main" will later just be in
-	// the graphical section of this project
-	ComptonEvent c{theta};
+// 	// test cases go here for now, our "main" will later just be in
+// 	// the graphical section of this project
+// 	ComptonEvent c{theta};
 	
-	ComptonGraphValues graph_vals = c.getComptonGraphValues();
+// 	ComptonGraphValues graph_vals = c.getComptonGraphValues();
   
-	graph_compton_shift(graph_vals.lambda_prime,
-			    graph_vals.lambda_naught,
-			    graph_vals.E_photon_naught,
-			    graph_vals.E_photon_prime);
-}
+// 	graph_compton_shift(graph_vals.lambda_prime,
+// 			    graph_vals.lambda_naught,
+// 			    graph_vals.E_photon_naught,
+// 			    graph_vals.E_photon_prime);
+// }
 

@@ -27,12 +27,12 @@
 class GnuplotPipe {
 public:
     inline GnuplotPipe(bool persist = true) {
-        std::cout << "Opening gnuplot... ";
+	    //        std::cout << "Opening gnuplot... ";
         pipe = popen(persist ? "gnuplot -persist" : "gnuplot", "w");
-        if (!pipe)
-            std::cout << "failed!" << std::endl;
-        else
-            std::cout << "succeeded." << std::endl;
+	if (!pipe)
+		std::cout << "failed!" << std::endl;
+	//        else
+	//  std::cout << "succeeded." << std::endl;
     }
     inline virtual ~GnuplotPipe(){
         if (pipe) pclose(pipe);
@@ -65,9 +65,9 @@ public:
     }
 
 private:
-    GnuplotPipe(GnuplotPipe const&) = delete;
-    void operator=(GnuplotPipe const&) = delete;
+	GnuplotPipe(GnuplotPipe const&) = delete;
+	void operator=(GnuplotPipe const&) = delete;
 
-    FILE* pipe;
-    std::vector<std::string> buffer;
+	FILE* pipe;
+	std::vector<std::string> buffer;
 };
