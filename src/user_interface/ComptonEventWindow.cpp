@@ -3,64 +3,19 @@
  * @author Oisin O'Connell
  * @date 15 Jun 2020
  * @brief gtk user input management
- 
- * @todo this file will contain the GTK code that allows us to
- * have multiple threads displaying information based on the input we get from
- * the user - likely one thread will accept input from the slider and
- * get a struct containing the calculated result, while another thread
- * (later on) will display a graph of the lamda-prime wavelength
- * (or perhaps something more interesting)
-
  * Make sure you have gtk+-3.0 installed, then you can compile with:
  * g++ `pkg-config --cflags gtk+-3.0` ComptonEventWindow.cpp -o input `pkg-config --libs gtk+-3.0`
-
+ 
+ * @todo fix the weird double include error that's occurring when the name
+ * space is moved out of this file
  */
 
 #include <ComptonEventWindow.hpp>
-#include <sstream>
-#include <iomanip>
-#include <gnuplot.h>
 
 namespace ComptonEventValues {
 	long double theta;
 	long double lambda_prime;
 };
-
-struct result_labels {
-	GtkWidget *theta;
-	GtkWidget *lambda;
-	GtkWidget *lambda_prime;
-	GtkWidget *photon_energy_naught;
-	GtkWidget *photon_energy_prime;
-	GtkWidget *photon_momentum_naught;
-	GtkWidget *photon_momentum_prime;
-	GtkWidget *electron_energy;
-	GtkWidget *electron_velocity;
-	GtkWidget *electron_momentum;
-	GtkWidget *electron_scatter_angle;
-};
-
-struct args {
-	GtkWidget *theta_val;
-	GtkWidget *lambda_val;
-	struct result_labels *results;
-};
-
-/* Callbacks */
-void scale_updated(GtkRange *scale, GtkLabel *theta_entry);
-void insert_theta_event(GtkEditable *theta_entry, const gchar *text, gint length, gint *pos);
-void insert_lambda_event(GtkEditable *theta_entry, const gchar *text,
-			 gint length, gint *pos);
-void submit_clicked(GtkWidget *button, struct args *multi_arg);
-
-/* Create the result labels */
-void create_result_labels(GtkWidget *outer_box,
-			  GtkWidget *result_box,
-			  struct result_labels *results);
-
-/* Function that updates all of the results whenever a new set of values
- * is entered. Called by the submit_clicked callback. */
-void set_result_labels(struct result_labels *results, ComptonEvent event);
 
 void create_calculation_window()
 {
