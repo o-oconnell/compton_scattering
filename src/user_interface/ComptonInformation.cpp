@@ -1,9 +1,8 @@
 #include <ComptonInformation.hpp>
 
-GtkWidget *win;
-
-void close_button_clicked(GtkWidget *close_button, gpointer data);
-
+/**
+ * @brief Creates the GTK window and adds the text and image to it
+ */
 void create_information_window()
 {
 	GtkWidget *outer_box;
@@ -43,6 +42,11 @@ void create_information_window()
 	gtk_main();
 }
 
+/**
+ * @brief Closes the window when the "Go to the program" button is clicked
+ * @param close_button the GTK button widget
+ * @param data the GTK window widget
+ */
 void close_button_clicked(GtkWidget *close_button, gpointer data)
 {
 	gtk_window_close(GTK_WINDOW(data));

@@ -17,6 +17,9 @@ namespace ComptonEventValues {
 	long double lambda_prime;
 };
 
+/** 
+ * @brief creates the window that allows user input to generate calculations
+ */
 void create_calculation_window()
 {
 	GtkWidget *win;
@@ -140,6 +143,12 @@ void create_calculation_window()
 	gtk_main();
 }
 
+/**
+ * @brief passes the inputted args to the graphing function
+ * @param button the input button
+ * @param multi_arg struct containing the result struct along with the 
+ * lambda and theta text field entries
+ */
 void submit_clicked(GtkWidget *button, struct args *multi_arg)
 {
 	GtkEntryBuffer *theta_buf = gtk_entry_get_buffer
@@ -161,6 +170,13 @@ void submit_clicked(GtkWidget *button, struct args *multi_arg)
 	set_result_labels(multi_arg->results, c);
 }
 
+/**
+ * @brief prevents the entry of any non-numeric characters for lambda
+ * @param scale the text box
+ * @param theta_entry the text that was added to the text box
+ * @param length the length of the added text
+ * @param pos the length of the added text
+ */
 void insert_lambda_event(GtkEditable *theta_entry, const gchar *text,
 			gint length, gint *pos)
 {
@@ -175,6 +191,13 @@ void insert_lambda_event(GtkEditable *theta_entry, const gchar *text,
 	}
 }
 
+/**
+ * @brief prevents the entry of any non-numeric characters for theta
+ * @param scale the text box
+ * @param theta_entry the text that was added to the text box
+ * @param length the length of the added text
+ * @param pos the length of the added text
+ */
 void insert_theta_event(GtkEditable *theta_entry, const gchar *text,
 			gint length, gint *pos)
 {
@@ -189,6 +212,11 @@ void insert_theta_event(GtkEditable *theta_entry, const gchar *text,
 	}
 }
 
+/**
+ * @brief updates the theta text box whenever the scale is updated
+ * @param scale the theta slider
+ * @param theta_entry the label for the theta slider
+ */
 void scale_updated(GtkRange *scale, GtkLabel *theta_entry)
 {
 	gtk_entry_set_text(GTK_ENTRY(theta_entry),
@@ -196,7 +224,12 @@ void scale_updated(GtkRange *scale, GtkLabel *theta_entry)
 	ComptonEventValues::theta = gtk_range_get_value(scale);
 }
 
-/* Create the result labels */
+/**
+ * @brief creates all of the result labels for the calculation results
+ * @param outer_box the outer GTK box containing all of the boxes
+ * @param result box the GTK box containing all of the results
+ * @param results a struct containing all of the result label widgets
+ */
 void create_result_labels(GtkWidget *outer_box,
 			  GtkWidget *result_box,
 			  struct result_labels *results)
@@ -248,8 +281,11 @@ void create_result_labels(GtkWidget *outer_box,
 	gtk_box_pack_start(GTK_BOX(result_box), results->electron_scatter_angle, FALSE, FALSE, 0);
 }
 
-/* Function that updates all of the results whenever a new set of values
- * is entered. Called by the submit_clicked callback. */
+/**
+ * @brief updates the result labels whenever the submit button is clicked
+ * @param results all of the result label widgets in a struct
+ * @param event the ComptonEvent which we can query to get the results
+ */
 void set_result_labels(struct result_labels *results, ComptonEvent event)
 {
 	ComptonResultValues eventResult = event.getResults();
