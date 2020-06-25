@@ -1,5 +1,7 @@
 #include <ComptonInformation.hpp>
 
+GtkWidget *win;
+
 /**
  * @brief Creates the GTK window and adds the text and image to it
  */

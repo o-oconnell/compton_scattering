@@ -7,6 +7,7 @@
 #include <sstream>
 #include <iomanip>
 #include <gnuplot.h>
+#include <iostream>
 
 struct result_labels {
 	GtkWidget *theta;
@@ -27,6 +28,7 @@ struct args {
 	GtkWidget *lambda_val;
 	struct result_labels *results;
 };
+
 
 /* Callbacks */
 /**

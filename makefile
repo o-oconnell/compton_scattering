@@ -2,7 +2,7 @@ CC=g++
 CFLAGS=-c -g -Wall -I./include/
 OFLAGS=-g -Wall -o
 
-all: computation user_interface main
+all: main computation user_interface 
 	$(CC) $(OFLAGS) compton_program *.o `pkg-config --libs gtk+-3.0` -pthread
 
 computation: src/computation/ComptonEvent.cpp include/ComptonEvent.hpp

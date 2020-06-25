@@ -14,6 +14,11 @@
 #include <graphing.hpp>
 #include <globals.hpp>
 
+/** 
+ * @brief Creates and returns a struct containing all of the ComptonEvent's
+ * values. 
+ * @return a ComptonResultValues struct.
+ */
 ComptonResultValues ComptonEvent::getResults()
 {
 	ComptonResultValues result = {
@@ -32,11 +37,20 @@ ComptonResultValues ComptonEvent::getResults()
 	return result;
 }
 
+/** 
+ * @brief converts the theta value to degrees since sin() in c takes radians.
+ * @return the value in degrees.
+ */
 long double ComptonEvent::getThetaInDegrees()
 {
 	return theta * (180 / M_PI);
 }
 
+/** 
+ * @brief converts picometers to meters since we take an incident ray value
+ * in picometers
+ * @return the value in meters.
+ */
 long double ComptonEvent::picometersToMeters(long double val)
 {
 	return val * pow(10, -12);
