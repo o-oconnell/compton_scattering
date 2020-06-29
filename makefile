@@ -16,5 +16,8 @@ user_interface: src/user_interface/graphing.cpp src/user_interface/ComptonEventW
 main: src/main/main.cpp
 	$(CC) $(CFLAGS) `pkg-config --cflags gtk+-3.0` src/main/main.cpp -pthread
 
+doxygen:
+	doxygen Doxyfile
+
 clean:
-	rm *.o compton_program
+	rm -rf *.o compton_program latex html
