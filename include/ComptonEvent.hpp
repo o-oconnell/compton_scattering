@@ -2,11 +2,8 @@
  * @file ComptonEvent.hpp
  * @author Oisin O'Connell
  * @date 10 Jun 2020
- * @brief ComptonEvent class declaration. This class will contain all of the
- * member function declarations
- * and parameters that we need to calculate numbers for the
- * graphical part of the application.
- *
+ * @brief Header file for ComptonEvent class, contains all of the declarations
+ * for the functions that calculate the collision-related values.
  *
  * @todo Update for relativistic velocities (>10% speed of light)
  */
