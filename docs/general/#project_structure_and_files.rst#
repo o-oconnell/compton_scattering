@@ -1,0 +1,34 @@
+
+***************************
+Project structure and files
+***************************
+
+
+Directories, layout
+===================
+This project is separated into two main folders, :code:`include` and :code:`src`. The former contains the header files for the :code:`.cpp` files in the :code:`src` directory and contains the header-only gnuplot-cpp library. The :code:`src` directory has all of our classes and function definitions. The ComptonEvent class is defined in :code:`src/computation`, and it contains all of the member functions that allow us to calculate the values resulting from a collision. All of the user input and GTK window code is in :code:`src/user_interface`, and our main function is in :code:`src/main`.
+
+
+Files
+=====
+
+===================
+Our "main" function
+===================
+Our main function is in :code:`src/main/main.cpp` and calls the create_information_window() function to create the first window that displays a blurb on Compton scattering. It then calls the create_calculation_window() function to display the window that allows entering values and graphing the Compton shift.
+
+======================
+The ComptonEvent class
+======================
+The ComptonEvent class is in :code:`src/computation/ComptonEvent.cpp`. The constructor for a ComptonEvent object takes values for the deflection angle and the wavelength of the incoming photon. It calls all of the calculation-related member functions to calculate the results. Those values are stored in the ComptonResultValues struct and accessible using the getResults() member function. This proceudure is what the user interface uses to print out the results.
+
+=======
+The GUI
+=======
+Our GUI has two parts: first the informational blurb that appears when the program is first run, then the window that allows user input and calculations. The informational window function and related callback definitions are stored in :code:`src/user_interface/ComptonInformation.cpp`. The calculation window function and its callback definitions are stored in :code:`src/user_interface/ComptonEventWindow.cpp`. At the top of both of these files are the create_information_window() and create_calculation_window() functions, both called by :code:`src/main/main.cpp`.
+
+====================
+Graphing our results
+====================
+To graph the results obtained from creating a ComptonEvent object based on the user's input, we call the graph_compton_shift() function in :code:`src/user_interface/graphing.cpp`. The function takes values for the pre- and post- collision wavelength and energy of the scattered photon and graphs them using gnuplot. 
+

@@ -1,0 +1,27 @@
+====================
+Building the project
+====================
+
+This project uses one simple Makefile. It can be modified easily if you need to modify the project (and it is licensed accordingly under the GPL- you are encouraged to do so).
+
+You can make the executable using:
+
+.. code-block:: bash
+
+   make
+
+
+You can make the Doxygen documentation using:
+
+.. code-block:: bash
+
+   make doxygen
+
+
+You can also remake the Sphinx documentation if necessary:
+
+.. code-block:: bash
+
+   cd docs
+   make html
+
