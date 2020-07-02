@@ -33,6 +33,8 @@ void graph_compton_shift(long double lambda_prime,
 	range_sstr << "set xrange [0:" << lambda_naught * 2 << "]";
 	gp.sendLine(range_sstr.str());
 	
+	std::cout << "rangestr : " << range_sstr.str() << '\n';
+
 	std::ostringstream photon_naught_sstr;
 	photon_naught_sstr << "plot "
 			   << e_naught
@@ -40,13 +42,16 @@ void graph_compton_shift(long double lambda_prime,
 			   << b_value_naught
 			   << "*x) title \"Incident photon\"";
 
+	std::cout << "sstr1: "<< photon_naught_sstr.str() << '\n';
 	std::ostringstream photon_prime_sstr;
 	photon_prime_sstr << "replot "
 			  << e_prime
 			  << " * cos("
 			  << b_value_prime
 			  << "*x) title \"Deflected photon\"";
-	
+
+	std::cout << "sstr2: " << photon_prime_sstr.str() << '\n';
+		
 	gp.sendLine(photon_naught_sstr.str());
 	gp.sendLine(photon_prime_sstr.str());
 }
